@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-lang="vi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Luca Vũ Xuân Tuất — Chuyên gia Nhà Thông Minh & IoT</title>
+  <title>Luca Vũ Xuân Tuất — Smart Home & IoT Expert</title>
   <meta name="description" content="Luca Vũ Xuân Tuất — CEO KST Smart Living, chuyên gia nhà thông minh & IoT với hơn 15 năm kinh nghiệm, người đầu tiên đưa FIBARO vào Việt Nam." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -75,6 +75,7 @@
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--white); }
+    .nav-right { display: flex; align-items: center; gap: 0.75rem; }
     .nav-cta {
       background: transparent;
       border: 1px solid var(--cyan);
@@ -88,6 +89,20 @@
       transition: background 0.2s, color 0.2s;
     }
     .nav-cta:hover { background: var(--cyan); color: var(--bg); }
+    .lang-toggle {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      color: var(--cyan);
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font);
+      letter-spacing: 0.06em;
+      transition: background 0.2s;
+    }
+    .lang-toggle:hover { background: var(--cyan-dim); }
 
     .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
     .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: 0.3s; }
@@ -510,6 +525,32 @@
       font-weight: 500;
     }
 
+    /* ───── PROJECT STATS ───── */
+    .proj-stats {
+      margin-top: 3rem;
+      padding: 2rem;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+    .proj-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 1.5rem;
+      text-align: center;
+    }
+    .proj-stat-num {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--cyan);
+    }
+    .proj-stat-label {
+      font-size: 0.78rem;
+      color: var(--gray);
+      margin-top: 0.25rem;
+    }
+
     /* ───── VISION ───── */
     #vision {
       background: var(--bg);
@@ -584,6 +625,9 @@
       overflow: hidden;
       transition: transform 0.3s, border-color 0.3s;
       cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
     }
     .blog-card:hover { transform: translateY(-4px); border-color: var(--border); }
     .blog-thumb {
@@ -679,7 +723,7 @@
     .footer-links a { color: var(--gray); font-size: 0.83rem; text-decoration: none; }
     .footer-links a:hover { color: var(--white); }
 
-    /* ───── FADE IN ANIMATION ───── */
+    /* ───── FADE IN ───── */
     .fade-up {
       opacity: 0;
       transform: translateY(30px);
@@ -698,6 +742,7 @@
       section { padding: 5rem 2rem; }
       .projects-grid { grid-template-columns: repeat(2, 1fr); }
       .blog-grid { grid-template-columns: repeat(2, 1fr); }
+      .proj-stats-grid { grid-template-columns: repeat(3, 1fr); }
       footer { padding: 2rem; }
     }
 
@@ -716,11 +761,11 @@
       .stat-card { text-align: left; flex: 1; }
       .scroll-hint { display: none; }
       .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .about-avatar { aspect-ratio: 4/3; }
       .projects-grid { grid-template-columns: 1fr; }
       .vision-milestones { grid-template-columns: 1fr; }
       .blog-grid { grid-template-columns: 1fr; }
       .contact-cards { grid-template-columns: 1fr; }
+      .proj-stats-grid { grid-template-columns: repeat(2, 1fr); }
       section { padding: 4rem 1.5rem; }
       footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
     }
@@ -752,6 +797,22 @@
       position: absolute; top: 1.5rem; right: 1.5rem;
       font-size: 1.5rem; color: var(--gray); cursor: pointer; background: none; border: none;
     }
+    .mobile-lang {
+      display: flex; gap: 1rem;
+    }
+    .mobile-lang button {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      color: var(--gray);
+      padding: 0.5rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font-heading);
+      transition: 0.2s;
+    }
+    .mobile-lang button.active { border-color: var(--cyan); color: var(--cyan); }
   </style>
 </head>
 <body>
@@ -759,23 +820,30 @@
 <!-- Mobile Nav -->
 <div class="mobile-menu" id="mobileMenu">
   <button class="mobile-close" id="menuClose">✕</button>
-  <a href="#about" onclick="closeMobileMenu()">Giới thiệu</a>
-  <a href="#experience" onclick="closeMobileMenu()">Kinh nghiệm</a>
-  <a href="#projects" onclick="closeMobileMenu()">Dự án</a>
-  <a href="#blog" onclick="closeMobileMenu()">Blog</a>
-  <a href="#contact" onclick="closeMobileMenu()">Liên hệ</a>
+  <a href="#about" onclick="closeMobileMenu()" data-i18n="nav.about">Giới thiệu</a>
+  <a href="#experience" onclick="closeMobileMenu()" data-i18n="nav.exp">Kinh nghiệm</a>
+  <a href="#projects" onclick="closeMobileMenu()" data-i18n="nav.projects">Dự án</a>
+  <a href="#blog" onclick="closeMobileMenu()" data-i18n="nav.blog">Blog</a>
+  <a href="#contact" onclick="closeMobileMenu()" data-i18n="nav.contact.cta">Liên hệ tôi</a>
+  <div class="mobile-lang">
+    <button onclick="setLang('vi'); closeMobileMenu();" id="mobileLangVI" class="active">VI</button>
+    <button onclick="setLang('en'); closeMobileMenu();" id="mobileLangEN">EN</button>
+  </div>
 </div>
 
 <!-- NAV -->
 <nav id="navbar">
   <a href="#" class="nav-logo">Luca <span>Tuất</span></a>
   <ul class="nav-links">
-    <li><a href="#about">Giới thiệu</a></li>
-    <li><a href="#experience">Kinh nghiệm</a></li>
-    <li><a href="#projects">Dự án</a></li>
-    <li><a href="#blog">Blog</a></li>
+    <li><a href="#about" data-i18n="nav.about">Giới thiệu</a></li>
+    <li><a href="#experience" data-i18n="nav.exp">Kinh nghiệm</a></li>
+    <li><a href="#projects" data-i18n="nav.projects">Dự án</a></li>
+    <li><a href="#blog" data-i18n="nav.blog">Blog</a></li>
   </ul>
-  <a href="#contact" class="nav-cta">Liên hệ tôi</a>
+  <div class="nav-right">
+    <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
+    <a href="#contact" class="nav-cta" data-i18n="nav.contact.cta">Liên hệ tôi</a>
+  </div>
   <div class="hamburger" id="hamburger">
     <span></span><span></span><span></span>
   </div>
@@ -787,42 +855,42 @@
   <div class="hero-glow"></div>
 
   <div class="hero-content">
-    <div class="hero-badge">CEO · KST Smart Living</div>
+    <div class="hero-badge" data-i18n="hero.badge">CEO · KST Smart Living</div>
     <h1 class="hero-name">
       Luca<br/>
       <span class="accent">Vũ Xuân Tuất</span>
     </h1>
     <p class="hero-title">
-      <strong>Chuyên gia Nhà Thông Minh & IoT</strong><br/>
-      Người tiên phong đưa hệ sinh thái SmartHome châu Âu vào Việt Nam
+      <strong data-i18n="hero.title.strong">Chuyên gia Nhà Thông Minh & IoT</strong><br/>
+      <span data-i18n="hero.title.sub">Người tiên phong đưa hệ sinh thái SmartHome châu Âu vào Việt Nam</span>
     </p>
-    <blockquote class="hero-quote">
-      "Một ngôi nhà đáng sống không phụ thuộc vào số lượng thiết bị, mà ở chỗ công nghệ biết khi nào nên lùi lại — ưu tiên kiến trúc và trải nghiệm sống."
+    <blockquote class="hero-quote" data-i18n="hero.quote">
+      Một ngôi nhà đáng sống không phụ thuộc vào số lượng thiết bị, mà ở chỗ công nghệ biết khi nào nên lùi lại — ưu tiên kiến trúc và trải nghiệm sống.
     </blockquote>
     <div class="hero-actions">
-      <a href="#projects" class="btn-primary">Xem dự án ↓</a>
-      <a href="#contact" class="btn-outline">Liên hệ tư vấn</a>
+      <a href="#projects" class="btn-primary" data-i18n="hero.btn1">Xem dự án ↓</a>
+      <a href="#contact" class="btn-outline" data-i18n="hero.btn2">Liên hệ tư vấn</a>
     </div>
   </div>
 
   <div class="hero-stats">
     <div class="stat-card">
       <div class="stat-num">15+</div>
-      <div class="stat-label">Năm kinh nghiệm</div>
+      <div class="stat-label" data-i18n="hero.stat1">Năm kinh nghiệm</div>
     </div>
     <div class="stat-card">
       <div class="stat-num">5.000+</div>
-      <div class="stat-label">Dự án hoàn thành</div>
+      <div class="stat-label" data-i18n="hero.stat2">Dự án hoàn thành</div>
     </div>
     <div class="stat-card">
       <div class="stat-num">2011</div>
-      <div class="stat-label">FIBARO đến Việt Nam</div>
+      <div class="stat-label" data-i18n="hero.stat3">FIBARO đến Việt Nam</div>
     </div>
   </div>
 
   <div class="scroll-hint">
     <div class="scroll-line"></div>
-    <span>Cuộn để khám phá</span>
+    <span data-i18n="hero.scroll">Cuộn để khám phá</span>
   </div>
 </section>
 
@@ -838,31 +906,35 @@
         <div class="photo-accent-dot"></div>
         <div class="photo-secondary">
           <img src="z7935854504974_e6ed49589a97d10cfc4a64fe2195f65b.jpg" alt="Luca Vũ Xuân Tuất phát biểu tại sự kiện" />
-          <span class="photo-label">Diễn giả · Sự kiện SmartHome</span>
+          <span class="photo-label" data-i18n="photo.label">Diễn giả · Sự kiện SmartHome</span>
         </div>
       </div>
 
       <div class="fade-up">
-        <div class="section-tag">Về tôi</div>
-        <h2 class="section-title">Xây dựng ngôi nhà thông minh từ tầm nhìn đến thực tế</h2>
+        <div class="section-tag" data-i18n="about.tag">Về tôi</div>
+        <h2 class="section-title" data-i18n="about.title">Xây dựng ngôi nhà thông minh từ tầm nhìn đến thực tế</h2>
         <div class="divider"></div>
 
         <div class="about-chips">
           <span class="chip">SmartHome</span>
           <span class="chip">IoT Architecture</span>
+          <span class="chip">KNX Certified</span>
           <span class="chip">FIBARO Partner</span>
+          <span class="chip">Edplit Vietnam</span>
+          <span class="chip">Samsung Alumni</span>
           <span class="chip">System Integration</span>
           <span class="chip">CEO / Founder</span>
         </div>
 
         <div class="about-text">
-          <p>Tôi là <strong>Luca Vũ Xuân Tuất</strong> — CEO của <strong>KST Smart Living</strong>, người đã dành hơn <strong>15 năm</strong> xây dựng và phát triển thị trường nhà thông minh tại Việt Nam.</p>
-          <p>Năm <strong>2011</strong>, tôi là người đầu tiên đưa thương hiệu <strong>FIBARO</strong> từ châu Âu vào Việt Nam — mở đầu cho một kỷ nguyên mới về tự động hóa nhà ở theo tiêu chuẩn quốc tế.</p>
-          <p>Với hơn <strong>5.000 dự án</strong> đã hoàn thành trải rộng từ biệt thự, căn hộ, khách sạn, văn phòng đến tòa nhà thương mại, tôi không chỉ tư vấn kỹ thuật mà còn định hình trải nghiệm sống đích thực cho từng không gian.</p>
+          <p data-i18n-html="about.p1">Tôi là <strong>Luca Vũ Xuân Tuất</strong> — CEO của <strong>KST Smart Living</strong>, người đã dành hơn <strong>15 năm</strong> xây dựng và phát triển thị trường nhà thông minh tại Việt Nam.</p>
+          <p data-i18n-html="about.p2">Hành trình bắt đầu từ <strong>7 năm vận hành tại nhà máy Samsung Việt Nam</strong> — nơi tôi xây dựng nền tảng kỹ thuật và tư duy hệ thống. Tiếp đó là <strong>3 năm tư vấn IoT cho sản xuất công nghiệp</strong> và <strong>2 năm chuyên sâu về chuẩn KNX</strong> cho tòa nhà cao cấp.</p>
+          <p data-i18n-html="about.p3">Năm <strong>2011</strong>, tôi là người đầu tiên đưa <strong>FIBARO</strong> từ châu Âu vào Việt Nam, sau đó tiếp tục tiên phong đưa <strong>Edplit</strong> — hệ thống điều khiển âm tường thế hệ mới — về thị trường nội địa.</p>
+          <p data-i18n-html="about.p4">Với hơn <strong>5.000 dự án</strong> hoàn thành từ biệt thự, căn hộ, khách sạn đến tòa nhà thương mại, tôi không chỉ tư vấn kỹ thuật mà còn định hình trải nghiệm sống đích thực cho từng không gian.</p>
         </div>
 
         <div class="about-brands">
-          <div class="brands-label">Đối tác thương hiệu châu Âu</div>
+          <div class="brands-label" data-i18n="about.brands">Đối tác thương hiệu châu Âu</div>
           <div class="brands-list">
             <span class="brand-tag">FIBARO</span>
             <span class="brand-tag">Vitrum</span>
@@ -881,45 +953,63 @@
 <section id="experience">
   <div class="container">
     <div class="fade-up">
-      <div class="section-tag">Hành trình</div>
-      <h2 class="section-title">Kinh nghiệm & chặng đường</h2>
+      <div class="section-tag" data-i18n="exp.tag">Hành trình</div>
+      <h2 class="section-title" data-i18n="exp.title">Kinh nghiệm & chặng đường</h2>
       <div class="divider"></div>
-      <p class="section-sub">15 năm liên tục dẫn đầu và định hình thị trường SmartHome tại Việt Nam.</p>
+      <p class="section-sub" data-i18n="exp.sub">Hơn 15 năm tích lũy — từ sàn nhà máy Samsung đến tiên phong xây dựng thị trường SmartHome Việt Nam.</p>
     </div>
 
     <div class="timeline fade-up">
+
       <div class="timeline-item">
-        <div class="timeline-year">2011 — Nay</div>
-        <div class="timeline-role">CEO & Founder</div>
-        <div class="timeline-company">KST Smart Living · Bình Dương, Việt Nam</div>
-        <div class="timeline-desc">
-          Sáng lập và điều hành KST Smart Living — đơn vị hàng đầu về tư vấn, thiết kế và triển khai giải pháp nhà thông minh tại Việt Nam. Xây dựng đội ngũ kỹ sư chuyên sâu, phát triển hệ sinh thái đối tác với các thương hiệu châu Âu.
-        </div>
+        <div class="timeline-year" data-i18n="tl1.year">7 năm · Samsung Việt Nam</div>
+        <div class="timeline-role" data-i18n="tl1.role">Kỹ sư Vận hành & Cải tiến Sản xuất</div>
+        <div class="timeline-company" data-i18n="tl1.company">Samsung Electronics Vietnam · Nhà máy Bắc Ninh & Thái Nguyên</div>
+        <div class="timeline-desc" data-i18n="tl1.desc">Vận hành dây chuyền sản xuất điện tử quy mô lớn, trực tiếp tham gia các dự án cải tiến quy trình (Kaizen, Lean Manufacturing). Tích lũy nền tảng kỹ thuật vững chắc về điện tử, tự động hóa và tư duy hệ thống — nền tảng sau này ứng dụng trực tiếp vào thiết kế giải pháp IoT công nghiệp.</div>
       </div>
+
       <div class="timeline-item">
-        <div class="timeline-year">2011</div>
-        <div class="timeline-role">Đưa FIBARO vào Việt Nam</div>
-        <div class="timeline-company">Tiên phong nhập khẩu & phân phối</div>
-        <div class="timeline-desc">
-          Người đầu tiên mang thương hiệu SmartHome hàng đầu châu Âu FIBARO vào thị trường Việt Nam, mở ra phân khúc nhà thông minh cao cấp và đặt nền móng cho toàn bộ ngành này tại Việt Nam.
-        </div>
+        <div class="timeline-year" data-i18n="tl2.year">3 năm · IoT Công nghiệp</div>
+        <div class="timeline-role" data-i18n="tl2.role">Tư vấn Giải pháp IoT cho Sản xuất</div>
+        <div class="timeline-company" data-i18n="tl2.company">Tư vấn độc lập · Khu công nghiệp miền Nam & miền Bắc</div>
+        <div class="timeline-desc" data-i18n="tl2.desc">Tư vấn và triển khai các dự án IoT ứng dụng cho môi trường sản xuất: giám sát máy móc theo thời gian thực, tối ưu hóa năng lượng nhà máy, cảnh báo sự cố tự động, kết nối dữ liệu dây chuyền với hệ thống quản lý. Cầu nối giữa công nghệ tự động hóa công nghiệp và nhu cầu thực tế của doanh nghiệp Việt.</div>
       </div>
+
       <div class="timeline-item">
-        <div class="timeline-year">5.000+ dự án</div>
-        <div class="timeline-role">Tư vấn & Triển khai toàn diện</div>
-        <div class="timeline-company">Biệt thự · Căn hộ · Khách sạn · Văn phòng · Tòa nhà thương mại</div>
-        <div class="timeline-desc">
-          Trực tiếp tư vấn và giám sát hàng nghìn dự án trên khắp Việt Nam — từ căn hộ cao cấp đến resort 5 sao, từ văn phòng thông minh đến khu đô thị tích hợp IoT.
-        </div>
+        <div class="timeline-year" data-i18n="tl3.year">2 năm · KNX Smart Building</div>
+        <div class="timeline-role" data-i18n="tl3.role">Chuyên gia Hệ thống KNX</div>
+        <div class="timeline-company" data-i18n="tl3.company">Tích hợp chuẩn quốc tế EN 50090 · ISO/IEC 14543</div>
+        <div class="timeline-desc" data-i18n="tl3.desc">Nghiên cứu chuyên sâu và triển khai hệ thống KNX — chuẩn mở toàn cầu cho tự động hóa tòa nhà. Thiết kế giải pháp ánh sáng, rèm cửa, HVAC và an ninh tích hợp đa thương hiệu (ABB, Siemens, Gira, Schneider Electric) cho các công trình cao cấp đòi hỏi độ ổn định và tính mở rộng cao.</div>
       </div>
+
       <div class="timeline-item">
-        <div class="timeline-year">Tầm nhìn 2030</div>
-        <div class="timeline-role">Xây dựng Trung tâm Tích hợp IoT Việt Nam</div>
-        <div class="timeline-company">Đưa kỹ sư Việt Nam ra thị trường quốc tế</div>
-        <div class="timeline-desc">
-          Định hướng đưa Việt Nam trở thành hub tích hợp IoT hợp pháp, nơi kỹ sư và kiến trúc sư Việt Nam phát triển giải pháp đủ sức cạnh tranh tại thị trường Mỹ và châu Âu.
-        </div>
+        <div class="timeline-year" data-i18n="tl4.year">2011 · Tiên phong</div>
+        <div class="timeline-role" data-i18n="tl4.role">Đưa FIBARO vào Việt Nam</div>
+        <div class="timeline-company" data-i18n="tl4.company">Nhà phân phối độc quyền đầu tiên · SmartHome châu Âu</div>
+        <div class="timeline-desc" data-i18n="tl4.desc">Người đầu tiên nhập khẩu và phân phối FIBARO — thương hiệu SmartHome hàng đầu châu Âu — vào thị trường Việt Nam. Mở ra phân khúc nhà thông minh cao cấp theo tiêu chuẩn quốc tế, đặt nền móng cho toàn bộ hệ sinh thái SmartHome chuyên nghiệp tại Việt Nam.</div>
       </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year" data-i18n="tl5.year">Tiên phong · Edplit</div>
+        <div class="timeline-role" data-i18n="tl5.role">Đưa Edplit về Việt Nam</div>
+        <div class="timeline-company" data-i18n="tl5.company">Hệ thống điều khiển âm tường thế hệ mới</div>
+        <div class="timeline-desc" data-i18n="tl5.desc">Tiên phong giới thiệu thương hiệu Edplit — giải pháp cảm ứng âm tường cao cấp từ châu Âu — vào Việt Nam. Edplit nổi bật với thiết kế tối giản, tích hợp liền mạch với FIBARO và các hệ thống Z-Wave, mang lại giao diện điều khiển sang trọng cho các biệt thự và căn hộ cao cấp.</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year" data-i18n="tl6.year">2011 — Nay</div>
+        <div class="timeline-role" data-i18n="tl6.role">CEO & Founder</div>
+        <div class="timeline-company" data-i18n="tl6.company">KST Smart Living · TP. Hồ Chí Minh, Việt Nam</div>
+        <div class="timeline-desc" data-i18n="tl6.desc">Sáng lập và điều hành KST Smart Living — đơn vị hàng đầu về tư vấn, thiết kế và triển khai giải pháp nhà thông minh tại Việt Nam. Hơn 5.000 dự án hoàn thành: 3.500+ biệt thự, 1.000+ căn hộ cao cấp, 300+ nhà phố, 100+ khách sạn & resort, 80+ văn phòng thương mại.</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year" data-i18n="tl7.year">Tầm nhìn 2030</div>
+        <div class="timeline-role" data-i18n="tl7.role">Xây dựng Trung tâm Tích hợp IoT Việt Nam</div>
+        <div class="timeline-company" data-i18n="tl7.company">Đưa kỹ sư Việt Nam ra thị trường quốc tế</div>
+        <div class="timeline-desc" data-i18n="tl7.desc">Định hướng đưa Việt Nam trở thành hub tích hợp IoT hợp pháp, nơi kỹ sư và kiến trúc sư Việt Nam phát triển giải pháp đủ sức cạnh tranh tại thị trường Mỹ và châu Âu.</div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -928,18 +1018,18 @@
 <section id="projects">
   <div class="container">
     <div class="fade-up">
-      <div class="section-tag">Portfolio</div>
-      <h2 class="section-title">Lĩnh vực triển khai</h2>
+      <div class="section-tag" data-i18n="proj.tag">Portfolio</div>
+      <h2 class="section-title" data-i18n="proj.title">Dự án tiêu biểu</h2>
       <div class="divider"></div>
-      <p class="section-sub">Giải pháp SmartHome & IoT cho mọi loại hình bất động sản, từ không gian sống đến thương mại.</p>
+      <p class="section-sub" data-i18n="proj.sub">Những công trình thực tế — từ biệt thự đến resort, từ văn phòng đến khu đô thị — do KST Smart Living tư vấn và triển khai.</p>
     </div>
 
     <div class="projects-grid fade-up">
 
       <div class="project-card">
         <div class="project-icon">🏡</div>
-        <div class="project-title">Biệt thự thông minh</div>
-        <div class="project-desc">Hệ thống điều khiển toàn diện: ánh sáng cảm xúc, an ninh đa lớp, kiểm soát điện năng, rèm thông minh và âm thanh phân vùng theo tiêu chuẩn châu Âu.</div>
+        <div class="project-title" data-i18n="p1.title">Biệt thự anh Hồng — Thủ Đức</div>
+        <div class="project-desc" data-i18n="p1.desc">Hệ thống SmartHome toàn diện theo tiêu chuẩn châu Âu: điều khiển ánh sáng cảm xúc, rèm thông minh, an ninh đa lớp, phân vùng âm thanh và quản lý điện năng.</div>
         <div class="project-tags">
           <span class="project-tag">FIBARO</span>
           <span class="project-tag">Vitrum</span>
@@ -949,61 +1039,114 @@
       </div>
 
       <div class="project-card">
-        <div class="project-icon">🏢</div>
-        <div class="project-title">Căn hộ cao cấp</div>
-        <div class="project-desc">Tối ưu hóa không gian nhỏ với giải pháp IoT thông minh: tự động hóa thói quen sinh hoạt, tiết kiệm điện năng, điều khiển từ xa qua smartphone.</div>
+        <div class="project-icon">🏡</div>
+        <div class="project-title" data-i18n="p2.title">Biệt thự anh Hùng — Thủ Đức</div>
+        <div class="project-desc" data-i18n="p2.desc">Tự động hóa toàn bộ không gian sống: kịch bản ánh sáng theo giờ, kiểm soát truy cập thông minh, camera AI, điều hòa tự động theo nhiệt độ và lượng người.</div>
         <div class="project-tags">
-          <span class="project-tag">Smart Apartment</span>
-          <span class="project-tag">Energy</span>
-          <span class="project-tag">Remote Control</span>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-icon">🏨</div>
-        <div class="project-title">Khách sạn & Resort</div>
-        <div class="project-desc">Tích hợp PMS với hệ thống IoT phòng khách — check-in không chạm, điều chỉnh môi trường tự động theo sở thích, quản lý năng lượng toàn tòa nhà.</div>
-        <div class="project-tags">
-          <span class="project-tag">Hospitality</span>
-          <span class="project-tag">PMS Integration</span>
-          <span class="project-tag">BMS</span>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-icon">🏬</div>
-        <div class="project-title">Văn phòng thông minh</div>
-        <div class="project-desc">Môi trường làm việc thích ứng: ánh sáng thay đổi theo giờ sinh học, điều hòa tự động theo lượng người, hệ thống họp tự động hóa và an ninh truy cập.</div>
-        <div class="project-tags">
-          <span class="project-tag">Smart Office</span>
-          <span class="project-tag">Access Control</span>
-          <span class="project-tag">HVAC</span>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-icon">📹</div>
-        <div class="project-title">An ninh & Kiểm soát</div>
-        <div class="project-desc">Giải pháp DoorBird IP intercom, camera AI nhận diện khuôn mặt, cửa tự động, cảnh báo thông minh — bảo vệ 24/7 với giao diện điều khiển trực quan.</div>
-        <div class="project-tags">
+          <span class="project-tag">FIBARO</span>
           <span class="project-tag">DoorBird</span>
+          <span class="project-tag">HVAC</span>
           <span class="project-tag">AI Camera</span>
-          <span class="project-tag">Face Recognition</span>
         </div>
       </div>
 
       <div class="project-card">
-        <div class="project-icon">⚡</div>
-        <div class="project-title">Quản lý năng lượng</div>
-        <div class="project-desc">Hệ thống theo dõi và tối ưu tiêu thụ điện năng theo thời gian thực, tích hợp điện mặt trời, lưu trữ năng lượng và báo cáo chi phí tự động.</div>
+        <div class="project-icon">🏡</div>
+        <div class="project-title" data-i18n="p3.title">Biệt thự anh Tuấn — Vũng Tàu</div>
+        <div class="project-desc" data-i18n="p3.desc">Dự án tối ưu năng lượng đặc trưng: tích hợp điện mặt trời, hệ thống lưu trữ và giám sát tiêu thụ theo thời gian thực — giảm 40% chi phí vận hành.</div>
         <div class="project-tags">
+          <span class="project-tag">FIBARO</span>
           <span class="project-tag">Snail Power</span>
           <span class="project-tag">Solar</span>
           <span class="project-tag">Energy Monitor</span>
         </div>
       </div>
 
+      <div class="project-card">
+        <div class="project-icon">🏡</div>
+        <div class="project-title" data-i18n="p4.title">Biệt thự anh Thành — Bảo Lộc</div>
+        <div class="project-desc" data-i18n="p4.desc">SmartHome cao cấp tại Bảo Lộc tích hợp điều khiển ánh sáng, cổng tự động, camera giám sát và hệ thống âm thanh phân vùng — điều khiển toàn bộ qua smartphone.</div>
+        <div class="project-tags">
+          <span class="project-tag">FIBARO</span>
+          <span class="project-tag">Edplit</span>
+          <span class="project-tag">Z-Wave</span>
+          <span class="project-tag">Remote Control</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">🏡</div>
+        <div class="project-title" data-i18n="p5.title">Biệt thự Chi Hoi — Bình Tân</div>
+        <div class="project-desc" data-i18n="p5.desc">Biệt thự sang trọng kết hợp thiết kế tinh tế và kỹ thuật tỉ mỉ: điều khiển ánh sáng, quản lý truy cập tự động, âm thanh đa vùng và hệ thống an ninh tích hợp.</div>
+        <div class="project-tags">
+          <span class="project-tag">FIBARO</span>
+          <span class="project-tag">Edplit</span>
+          <span class="project-tag">Access Control</span>
+          <span class="project-tag">Multi-zone Audio</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">🏡</div>
+        <div class="project-title" data-i18n="p6.title">Biệt thự anh Xứng — Sóc Trăng</div>
+        <div class="project-desc" data-i18n="p6.desc">Triển khai SmartHome toàn diện tại tỉnh lẻ: chứng minh khả năng phục vụ không chỉ tại đô thị lớn, mang trải nghiệm sống châu Âu đến mọi miền Việt Nam.</div>
+        <div class="project-tags">
+          <span class="project-tag">FIBARO</span>
+          <span class="project-tag">Z-Wave</span>
+          <span class="project-tag">Smart Lighting</span>
+          <span class="project-tag">Security</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">🏢</div>
+        <div class="project-title" data-i18n="p7.title">Căn hộ chị Huyền — Quận 7</div>
+        <div class="project-desc" data-i18n="p7.desc">Tối ưu không gian căn hộ cao cấp: tự động hóa thói quen sinh hoạt, tiết kiệm điện năng thông minh, điều khiển từ xa và tích hợp Apple HomeKit với Siri.</div>
+        <div class="project-tags">
+          <span class="project-tag">Apple HomeKit</span>
+          <span class="project-tag">FIBARO</span>
+          <span class="project-tag">Energy Saving</span>
+          <span class="project-tag">Siri</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">🏡</div>
+        <div class="project-title" data-i18n="p8.title">Biệt thự anh Hiếu — Cityland</div>
+        <div class="project-desc" data-i18n="p8.desc">Hệ thống KNX cao cấp tích hợp đa thương hiệu: điều khiển ánh sáng, rèm, HVAC và an ninh trong một nền tảng thống nhất theo chuẩn quốc tế EN 50090.</div>
+        <div class="project-tags">
+          <span class="project-tag">KNX</span>
+          <span class="project-tag">Gira</span>
+          <span class="project-tag">ABB</span>
+          <span class="project-tag">HVAC</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">🏨</div>
+        <div class="project-title" data-i18n="p9.title">Bạch Đằng Complex — Đà Nẵng</div>
+        <div class="project-desc" data-i18n="p9.desc">Khách sạn phức hợp tại Đà Nẵng: hệ thống ánh sáng LED thông minh tự điều chỉnh theo thời gian, âm thanh đa vùng từ hành lang đến hồ bơi, tiết kiệm năng lượng toàn tòa nhà.</div>
+        <div class="project-tags">
+          <span class="project-tag">Smart Hotel</span>
+          <span class="project-tag">Smart Lighting</span>
+          <span class="project-tag">Multi-zone Audio</span>
+          <span class="project-tag">BMS</span>
+        </div>
+      </div>
+
     </div>
+
+    <div class="proj-stats fade-up">
+      <div class="proj-stats-grid">
+        <div><div class="proj-stat-num">3.500+</div><div class="proj-stat-label" data-i18n="stat.villas">Biệt thự</div></div>
+        <div><div class="proj-stat-num">1.000+</div><div class="proj-stat-label" data-i18n="stat.apts">Căn hộ cao cấp</div></div>
+        <div><div class="proj-stat-num">300+</div><div class="proj-stat-label" data-i18n="stat.town">Nhà phố</div></div>
+        <div><div class="proj-stat-num">100+</div><div class="proj-stat-label" data-i18n="stat.hotels">Khách sạn & Resort</div></div>
+        <div><div class="proj-stat-num">80+</div><div class="proj-stat-label" data-i18n="stat.offices">Văn phòng thương mại</div></div>
+        <div><div class="proj-stat-num">50+</div><div class="proj-stat-label" data-i18n="stat.retail">Chuỗi bán lẻ</div></div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1011,30 +1154,30 @@
 <section id="vision">
   <div class="container">
     <div class="vision-inner fade-up">
-      <div class="section-tag">Tầm nhìn</div>
-      <h2 class="section-title">Việt Nam — Trung tâm IoT của Đông Nam Á</h2>
+      <div class="section-tag" data-i18n="vision.tag">Tầm nhìn</div>
+      <h2 class="section-title" data-i18n="vision.title">Việt Nam — Trung tâm IoT của Đông Nam Á</h2>
       <div class="divider" style="margin: 1.25rem auto 0;"></div>
 
-      <p class="vision-quote">
+      <p class="vision-quote" data-i18n="vision.quote">
         Kỹ sư Việt Nam hoàn toàn có thể tạo ra những giải pháp đủ sức cạnh tranh tại thị trường Mỹ và châu Âu
       </p>
 
-      <p class="vision-text">
+      <p class="vision-text" data-i18n="vision.text">
         Tôi tin rằng Việt Nam không nên mãi là thị trường nhập khẩu và phân phối. Với đội ngũ kỹ sư tài năng và chi phí phát triển cạnh tranh, chúng ta hoàn toàn có thể xây dựng các giải pháp IoT "made in Vietnam" — không chỉ phục vụ nội địa mà còn xuất khẩu ra thế giới.
       </p>
 
       <div class="vision-milestones">
         <div class="milestone">
           <div class="milestone-num">2011</div>
-          <div class="milestone-label">Năm đưa SmartHome châu Âu vào Việt Nam</div>
+          <div class="milestone-label" data-i18n="vision.m1">Năm đưa SmartHome châu Âu vào Việt Nam</div>
         </div>
         <div class="milestone">
           <div class="milestone-num">5.000+</div>
-          <div class="milestone-label">Dự án triển khai thực tế</div>
+          <div class="milestone-label" data-i18n="vision.m2">Dự án triển khai thực tế</div>
         </div>
         <div class="milestone">
           <div class="milestone-num">2030</div>
-          <div class="milestone-label">Mục tiêu: Hub IoT quốc tế</div>
+          <div class="milestone-label" data-i18n="vision.m3">Mục tiêu: Hub IoT quốc tế</div>
         </div>
       </div>
     </div>
@@ -1045,44 +1188,48 @@
 <section id="blog">
   <div class="container">
     <div class="fade-up">
-      <div class="section-tag">Kiến thức</div>
-      <h2 class="section-title">Chia sẻ từ thực chiến</h2>
+      <div class="section-tag" data-i18n="blog.tag">Kiến thức</div>
+      <h2 class="section-title" data-i18n="blog.title">Chia sẻ từ thực chiến</h2>
       <div class="divider"></div>
-      <p class="section-sub">Những góc nhìn thực tế về SmartHome, IoT và xu hướng công nghệ nhà ở thông minh.</p>
+      <p class="section-sub" data-i18n="blog.sub">Những góc nhìn thực tế về SmartHome, IoT và xu hướng công nghệ nhà ở thông minh.</p>
     </div>
 
     <div class="blog-grid fade-up">
 
-      <div class="blog-card">
+      <a href="https://kstgroup.vn" target="_blank" class="blog-card">
         <div class="blog-thumb">🏠</div>
         <div class="blog-body">
-          <div class="blog-cat">SmartHome</div>
-          <div class="blog-title">FIBARO vs. thương hiệu nội địa: Khi nào nên chọn giải pháp cao cấp?</div>
-          <div class="blog-excerpt">Phân tích thực tế sau 15 năm triển khai: giá trị lâu dài của hệ sinh thái châu Âu so với chi phí ban đầu...</div>
-          <div class="blog-meta">Luca Vũ Xuân Tuất · Tháng 5, 2025</div>
+          <div class="blog-cat" data-i18n="blog1.cat">SmartHome · Thiết kế</div>
+          <div class="blog-title" data-i18n="blog1.title">9 phong cách thiết kế SmartHome: Mối liên hệ có thể bạn chưa biết</div>
+          <div class="blog-excerpt" data-i18n="blog1.excerpt">Nghệ thuật kết hợp công nghệ tự động hóa với từng phong cách nội thất — từ tối giản đến cổ điển, công nghệ nên ẩn mình hay nổi bật?</div>
+          <div class="blog-meta" data-i18n="blog1.meta">KST Smart Living · Tháng 6, 2025</div>
         </div>
-      </div>
+      </a>
 
-      <div class="blog-card">
-        <div class="blog-thumb">📡</div>
+      <a href="https://kstgroup.vn" target="_blank" class="blog-card">
+        <div class="blog-thumb">🔥</div>
         <div class="blog-body">
-          <div class="blog-cat">IoT</div>
-          <div class="blog-title">Z-Wave vs. Zigbee vs. Matter: Giao thức nào phù hợp cho nhà Việt?</div>
-          <div class="blog-excerpt">Phân tích chuyên sâu từ góc độ kỹ thuật lẫn thực tế triển khai tại thị trường Việt Nam 2025...</div>
-          <div class="blog-meta">Luca Vũ Xuân Tuất · Tháng 4, 2025</div>
+          <div class="blog-cat" data-i18n="blog2.cat">An toàn · Cảm biến</div>
+          <div class="blog-title" data-i18n="blog2.title">Cảm biến CO là gì? Phân loại, nguyên lý hoạt động và cấu tạo</div>
+          <div class="blog-excerpt" data-i18n="blog2.excerpt">Hướng dẫn đầy đủ về cảm biến khí CO trong SmartHome: cách phát hiện nồng độ nguy hiểm và tích hợp cảnh báo thông minh bảo vệ gia đình 24/7.</div>
+          <div class="blog-meta" data-i18n="blog2.meta">KST Smart Living · Tháng 5, 2025</div>
         </div>
-      </div>
+      </a>
 
-      <div class="blog-card">
-        <div class="blog-thumb">💡</div>
+      <a href="https://kstgroup.vn" target="_blank" class="blog-card">
+        <div class="blog-thumb">🔊</div>
         <div class="blog-body">
-          <div class="blog-cat">Tư vấn</div>
-          <div class="blog-title">5 sai lầm phổ biến khi thiết kế nhà thông minh và cách tránh</div>
-          <div class="blog-excerpt">Từ 5.000+ dự án, đây là những lỗi lặp đi lặp lại mà chủ nhà và kiến trúc sư thường mắc phải...</div>
-          <div class="blog-meta">Luca Vũ Xuân Tuất · Tháng 3, 2025</div>
+          <div class="blog-cat" data-i18n="blog3.cat">IoT · Âm thanh</div>
+          <div class="blog-title" data-i18n="blog3.title">Loa thông minh có chức năng gì? Ứng dụng trong hệ sinh thái SmartHome</div>
+          <div class="blog-excerpt" data-i18n="blog3.excerpt">Từ điều khiển giọng nói đến kết nối đa vùng âm thanh — loa thông minh không chỉ để nghe nhạc mà còn là trung tâm điều phối toàn bộ ngôi nhà.</div>
+          <div class="blog-meta" data-i18n="blog3.meta">KST Smart Living · Tháng 3, 2025</div>
         </div>
-      </div>
+      </a>
 
+    </div>
+
+    <div style="text-align: center; margin-top: 2.5rem;">
+      <a href="https://kstgroup.vn" target="_blank" class="btn-outline" data-i18n="blog.more">Đọc thêm trên kstgroup.vn →</a>
     </div>
   </div>
 </section>
@@ -1091,37 +1238,37 @@
 <section id="contact">
   <div class="container">
     <div class="contact-inner fade-up">
-      <div class="section-tag">Liên hệ</div>
-      <h2 class="section-title">Bắt đầu dự án của bạn</h2>
+      <div class="section-tag" data-i18n="contact.tag">Liên hệ</div>
+      <h2 class="section-title" data-i18n="contact.title">Bắt đầu dự án của bạn</h2>
       <div class="divider" style="margin: 1.25rem auto;"></div>
-      <p class="section-sub" style="margin: 0 auto;">Dù là biệt thự, căn hộ hay tòa nhà thương mại — hãy để chúng tôi tư vấn giải pháp phù hợp nhất cho không gian của bạn.</p>
+      <p class="section-sub" style="margin: 0 auto;" data-i18n="contact.sub">Dù là biệt thự, căn hộ hay tòa nhà thương mại — hãy để chúng tôi tư vấn giải pháp phù hợp nhất cho không gian của bạn.</p>
 
       <div class="contact-cards">
         <a href="mailto:xuantuat.vu@kimsontien.com" class="contact-card">
           <div class="contact-icon">✉️</div>
           <div>
-            <div class="contact-label">Email</div>
+            <div class="contact-label" data-i18n="contact.email.label">Email</div>
             <div class="contact-value">xuantuat.vu@kimsontien.com</div>
           </div>
         </a>
-        <a href="https://www.linkedin.com/in/luca-vu-xuan-tuat" target="_blank" class="contact-card">
+        <a href="https://www.linkedin.com/in/v%C5%A9-xu%C3%A2n-tu%E1%BA%A5t-b4bb14128" target="_blank" class="contact-card">
           <div class="contact-icon">💼</div>
           <div>
-            <div class="contact-label">LinkedIn</div>
-            <div class="contact-value">linkedin.com/in/luca-vu-xuan-tuat</div>
+            <div class="contact-label" data-i18n="contact.linkedin.label">LinkedIn</div>
+            <div class="contact-value">Vũ Xuân Tuất</div>
           </div>
         </a>
         <a href="tel:0913699545" class="contact-card">
           <div class="contact-icon">📞</div>
           <div>
-            <div class="contact-label">Điện thoại</div>
+            <div class="contact-label" data-i18n="contact.phone.label">Điện thoại</div>
             <div class="contact-value">0913 699 545</div>
           </div>
         </a>
         <a href="https://kstgroup.vn" target="_blank" class="contact-card">
           <div class="contact-icon">🌐</div>
           <div>
-            <div class="contact-label">Website công ty</div>
+            <div class="contact-label" data-i18n="contact.web.label">Website công ty</div>
             <div class="contact-value">kstgroup.vn</div>
           </div>
         </a>
@@ -1132,35 +1279,223 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-copy">
+  <div class="footer-copy" data-i18n-html="footer.copy">
     © 2025 <a href="#">Luca Vũ Xuân Tuất</a> · CEO KST Smart Living
   </div>
   <div class="footer-links">
-    <a href="#about">Về tôi</a>
-    <a href="#projects">Dự án</a>
-    <a href="#blog">Blog</a>
-    <a href="#contact">Liên hệ</a>
+    <a href="#about" data-i18n="footer.about">Về tôi</a>
+    <a href="#projects" data-i18n="footer.projects">Dự án</a>
+    <a href="#blog" data-i18n="footer.blog">Blog</a>
+    <a href="#contact" data-i18n="footer.contact">Liên hệ</a>
   </div>
 </footer>
 
 <script>
-  // Nav scroll effect
+  // ───── TRANSLATIONS ─────
+  const t = {
+    vi: {
+      "nav.about": "Giới thiệu", "nav.exp": "Kinh nghiệm", "nav.projects": "Dự án",
+      "nav.blog": "Blog", "nav.contact.cta": "Liên hệ tôi",
+      "hero.badge": "CEO · KST Smart Living",
+      "hero.title.strong": "Chuyên gia Nhà Thông Minh & IoT",
+      "hero.title.sub": "Người tiên phong đưa hệ sinh thái SmartHome châu Âu vào Việt Nam",
+      "hero.quote": "Một ngôi nhà đáng sống không phụ thuộc vào số lượng thiết bị, mà ở chỗ công nghệ biết khi nào nên lùi lại — ưu tiên kiến trúc và trải nghiệm sống.",
+      "hero.btn1": "Xem dự án ↓", "hero.btn2": "Liên hệ tư vấn",
+      "hero.stat1": "Năm kinh nghiệm", "hero.stat2": "Dự án hoàn thành", "hero.stat3": "FIBARO đến Việt Nam",
+      "hero.scroll": "Cuộn để khám phá",
+      "photo.label": "Diễn giả · Sự kiện SmartHome",
+      "about.tag": "Về tôi", "about.title": "Xây dựng ngôi nhà thông minh từ tầm nhìn đến thực tế",
+      "about.p1": "Tôi là <strong>Luca Vũ Xuân Tuất</strong> — CEO của <strong>KST Smart Living</strong>, người đã dành hơn <strong>15 năm</strong> xây dựng và phát triển thị trường nhà thông minh tại Việt Nam.",
+      "about.p2": "Hành trình bắt đầu từ <strong>7 năm vận hành tại nhà máy Samsung Việt Nam</strong> — nơi tôi xây dựng nền tảng kỹ thuật và tư duy hệ thống. Tiếp đó là <strong>3 năm tư vấn IoT cho sản xuất công nghiệp</strong> và <strong>2 năm chuyên sâu về chuẩn KNX</strong> cho tòa nhà cao cấp.",
+      "about.p3": "Năm <strong>2011</strong>, tôi là người đầu tiên đưa <strong>FIBARO</strong> từ châu Âu vào Việt Nam, sau đó tiếp tục tiên phong đưa <strong>Edplit</strong> — hệ thống điều khiển âm tường thế hệ mới — về thị trường nội địa.",
+      "about.p4": "Với hơn <strong>5.000 dự án</strong> hoàn thành từ biệt thự, căn hộ, khách sạn đến tòa nhà thương mại, tôi không chỉ tư vấn kỹ thuật mà còn định hình trải nghiệm sống đích thực cho từng không gian.",
+      "about.brands": "Đối tác thương hiệu châu Âu",
+      "exp.tag": "Hành trình", "exp.title": "Kinh nghiệm & chặng đường",
+      "exp.sub": "Hơn 15 năm tích lũy — từ sàn nhà máy Samsung đến tiên phong xây dựng thị trường SmartHome Việt Nam.",
+      "tl1.year": "7 năm · Samsung Việt Nam", "tl1.role": "Kỹ sư Vận hành & Cải tiến Sản xuất",
+      "tl1.company": "Samsung Electronics Vietnam · Nhà máy Bắc Ninh & Thái Nguyên",
+      "tl1.desc": "Vận hành dây chuyền sản xuất điện tử quy mô lớn, trực tiếp tham gia các dự án cải tiến quy trình (Kaizen, Lean Manufacturing). Tích lũy nền tảng kỹ thuật vững chắc về điện tử, tự động hóa và tư duy hệ thống — nền tảng sau này ứng dụng trực tiếp vào thiết kế giải pháp IoT công nghiệp.",
+      "tl2.year": "3 năm · IoT Công nghiệp", "tl2.role": "Tư vấn Giải pháp IoT cho Sản xuất",
+      "tl2.company": "Tư vấn độc lập · Khu công nghiệp miền Nam & miền Bắc",
+      "tl2.desc": "Tư vấn và triển khai các dự án IoT ứng dụng cho môi trường sản xuất: giám sát máy móc theo thời gian thực, tối ưu hóa năng lượng nhà máy, cảnh báo sự cố tự động, kết nối dữ liệu dây chuyền với hệ thống quản lý. Cầu nối giữa công nghệ tự động hóa công nghiệp và nhu cầu thực tế của doanh nghiệp Việt.",
+      "tl3.year": "2 năm · KNX Smart Building", "tl3.role": "Chuyên gia Hệ thống KNX",
+      "tl3.company": "Tích hợp chuẩn quốc tế EN 50090 · ISO/IEC 14543",
+      "tl3.desc": "Nghiên cứu chuyên sâu và triển khai hệ thống KNX — chuẩn mở toàn cầu cho tự động hóa tòa nhà. Thiết kế giải pháp ánh sáng, rèm cửa, HVAC và an ninh tích hợp đa thương hiệu (ABB, Siemens, Gira, Schneider Electric) cho các công trình cao cấp đòi hỏi độ ổn định và tính mở rộng cao.",
+      "tl4.year": "2011 · Tiên phong", "tl4.role": "Đưa FIBARO vào Việt Nam",
+      "tl4.company": "Nhà phân phối độc quyền đầu tiên · SmartHome châu Âu",
+      "tl4.desc": "Người đầu tiên nhập khẩu và phân phối FIBARO — thương hiệu SmartHome hàng đầu châu Âu — vào thị trường Việt Nam. Mở ra phân khúc nhà thông minh cao cấp theo tiêu chuẩn quốc tế, đặt nền móng cho toàn bộ hệ sinh thái SmartHome chuyên nghiệp tại Việt Nam.",
+      "tl5.year": "Tiên phong · Edplit", "tl5.role": "Đưa Edplit về Việt Nam",
+      "tl5.company": "Hệ thống điều khiển âm tường thế hệ mới",
+      "tl5.desc": "Tiên phong giới thiệu thương hiệu Edplit — giải pháp cảm ứng âm tường cao cấp từ châu Âu — vào Việt Nam. Edplit nổi bật với thiết kế tối giản, tích hợp liền mạch với FIBARO và các hệ thống Z-Wave, mang lại giao diện điều khiển sang trọng cho các biệt thự và căn hộ cao cấp.",
+      "tl6.year": "2011 — Nay", "tl6.role": "CEO & Founder",
+      "tl6.company": "KST Smart Living · TP. Hồ Chí Minh, Việt Nam",
+      "tl6.desc": "Sáng lập và điều hành KST Smart Living — đơn vị hàng đầu về tư vấn, thiết kế và triển khai giải pháp nhà thông minh tại Việt Nam. Hơn 5.000 dự án hoàn thành: 3.500+ biệt thự, 1.000+ căn hộ cao cấp, 300+ nhà phố, 100+ khách sạn & resort, 80+ văn phòng thương mại.",
+      "tl7.year": "Tầm nhìn 2030", "tl7.role": "Xây dựng Trung tâm Tích hợp IoT Việt Nam",
+      "tl7.company": "Đưa kỹ sư Việt Nam ra thị trường quốc tế",
+      "tl7.desc": "Định hướng đưa Việt Nam trở thành hub tích hợp IoT hợp pháp, nơi kỹ sư và kiến trúc sư Việt Nam phát triển giải pháp đủ sức cạnh tranh tại thị trường Mỹ và châu Âu.",
+      "proj.tag": "Portfolio", "proj.title": "Dự án tiêu biểu",
+      "proj.sub": "Những công trình thực tế — từ biệt thự đến resort, từ văn phòng đến khu đô thị — do KST Smart Living tư vấn và triển khai.",
+      "p1.title": "Biệt thự anh Hồng — Thủ Đức", "p1.desc": "Hệ thống SmartHome toàn diện theo tiêu chuẩn châu Âu: điều khiển ánh sáng cảm xúc, rèm thông minh, an ninh đa lớp, phân vùng âm thanh và quản lý điện năng.",
+      "p2.title": "Biệt thự anh Hùng — Thủ Đức", "p2.desc": "Tự động hóa toàn bộ không gian sống: kịch bản ánh sáng theo giờ, kiểm soát truy cập thông minh, camera AI, điều hòa tự động theo nhiệt độ và lượng người.",
+      "p3.title": "Biệt thự anh Tuấn — Vũng Tàu", "p3.desc": "Dự án tối ưu năng lượng đặc trưng: tích hợp điện mặt trời, hệ thống lưu trữ và giám sát tiêu thụ theo thời gian thực — giảm 40% chi phí vận hành.",
+      "p4.title": "Biệt thự anh Thành — Bảo Lộc", "p4.desc": "SmartHome cao cấp tại Bảo Lộc tích hợp điều khiển ánh sáng, cổng tự động, camera giám sát và hệ thống âm thanh phân vùng — điều khiển toàn bộ qua smartphone.",
+      "p5.title": "Biệt thự Chi Hoi — Bình Tân", "p5.desc": "Biệt thự sang trọng kết hợp thiết kế tinh tế và kỹ thuật tỉ mỉ: điều khiển ánh sáng, quản lý truy cập tự động, âm thanh đa vùng và hệ thống an ninh tích hợp.",
+      "p6.title": "Biệt thự anh Xứng — Sóc Trăng", "p6.desc": "Triển khai SmartHome toàn diện tại tỉnh lẻ: chứng minh khả năng phục vụ không chỉ tại đô thị lớn, mang trải nghiệm sống châu Âu đến mọi miền Việt Nam.",
+      "p7.title": "Căn hộ chị Huyền — Quận 7", "p7.desc": "Tối ưu không gian căn hộ cao cấp: tự động hóa thói quen sinh hoạt, tiết kiệm điện năng thông minh, điều khiển từ xa và tích hợp Apple HomeKit với Siri.",
+      "p8.title": "Biệt thự anh Hiếu — Cityland", "p8.desc": "Hệ thống KNX cao cấp tích hợp đa thương hiệu: điều khiển ánh sáng, rèm, HVAC và an ninh trong một nền tảng thống nhất theo chuẩn quốc tế EN 50090.",
+      "p9.title": "Bạch Đằng Complex — Đà Nẵng", "p9.desc": "Khách sạn phức hợp tại Đà Nẵng: hệ thống ánh sáng LED thông minh tự điều chỉnh theo thời gian, âm thanh đa vùng từ hành lang đến hồ bơi, tiết kiệm năng lượng toàn tòa nhà.",
+      "stat.villas": "Biệt thự", "stat.apts": "Căn hộ cao cấp", "stat.town": "Nhà phố",
+      "stat.hotels": "Khách sạn & Resort", "stat.offices": "Văn phòng thương mại", "stat.retail": "Chuỗi bán lẻ",
+      "vision.tag": "Tầm nhìn", "vision.title": "Việt Nam — Trung tâm IoT của Đông Nam Á",
+      "vision.quote": "Kỹ sư Việt Nam hoàn toàn có thể tạo ra những giải pháp đủ sức cạnh tranh tại thị trường Mỹ và châu Âu",
+      "vision.text": "Tôi tin rằng Việt Nam không nên mãi là thị trường nhập khẩu và phân phối. Với đội ngũ kỹ sư tài năng và chi phí phát triển cạnh tranh, chúng ta hoàn toàn có thể xây dựng các giải pháp IoT \"made in Vietnam\" — không chỉ phục vụ nội địa mà còn xuất khẩu ra thế giới.",
+      "vision.m1": "Năm đưa SmartHome châu Âu vào Việt Nam", "vision.m2": "Dự án triển khai thực tế", "vision.m3": "Mục tiêu: Hub IoT quốc tế",
+      "blog.tag": "Kiến thức", "blog.title": "Chia sẻ từ thực chiến",
+      "blog.sub": "Những góc nhìn thực tế về SmartHome, IoT và xu hướng công nghệ nhà ở thông minh.",
+      "blog1.cat": "SmartHome · Thiết kế", "blog1.title": "9 phong cách thiết kế SmartHome: Mối liên hệ có thể bạn chưa biết",
+      "blog1.excerpt": "Nghệ thuật kết hợp công nghệ tự động hóa với từng phong cách nội thất — từ tối giản đến cổ điển, công nghệ nên ẩn mình hay nổi bật?",
+      "blog1.meta": "KST Smart Living · Tháng 6, 2025",
+      "blog2.cat": "An toàn · Cảm biến", "blog2.title": "Cảm biến CO là gì? Phân loại, nguyên lý hoạt động và cấu tạo",
+      "blog2.excerpt": "Hướng dẫn đầy đủ về cảm biến khí CO trong SmartHome: cách phát hiện nồng độ nguy hiểm và tích hợp cảnh báo thông minh bảo vệ gia đình 24/7.",
+      "blog2.meta": "KST Smart Living · Tháng 5, 2025",
+      "blog3.cat": "IoT · Âm thanh", "blog3.title": "Loa thông minh có chức năng gì? Ứng dụng trong hệ sinh thái SmartHome",
+      "blog3.excerpt": "Từ điều khiển giọng nói đến kết nối đa vùng âm thanh — loa thông minh không chỉ để nghe nhạc mà còn là trung tâm điều phối toàn bộ ngôi nhà.",
+      "blog3.meta": "KST Smart Living · Tháng 3, 2025",
+      "blog.more": "Đọc thêm trên kstgroup.vn →",
+      "contact.tag": "Liên hệ", "contact.title": "Bắt đầu dự án của bạn",
+      "contact.sub": "Dù là biệt thự, căn hộ hay tòa nhà thương mại — hãy để chúng tôi tư vấn giải pháp phù hợp nhất cho không gian của bạn.",
+      "contact.email.label": "Email", "contact.linkedin.label": "LinkedIn",
+      "contact.phone.label": "Điện thoại", "contact.web.label": "Website công ty",
+      "footer.copy": "© 2025 <a href=\"#\">Luca Vũ Xuân Tuất</a> · CEO KST Smart Living",
+      "footer.about": "Về tôi", "footer.projects": "Dự án", "footer.blog": "Blog", "footer.contact": "Liên hệ"
+    },
+    en: {
+      "nav.about": "About", "nav.exp": "Experience", "nav.projects": "Projects",
+      "nav.blog": "Blog", "nav.contact.cta": "Contact Me",
+      "hero.badge": "CEO · KST Smart Living",
+      "hero.title.strong": "Smart Home & IoT Expert",
+      "hero.title.sub": "Pioneer bringing the European SmartHome ecosystem to Vietnam",
+      "hero.quote": "A home worth living in doesn't depend on the number of devices, but where technology knows when to step back — prioritizing architecture and the living experience.",
+      "hero.btn1": "View Projects ↓", "hero.btn2": "Get Consultation",
+      "hero.stat1": "Years Experience", "hero.stat2": "Projects Completed", "hero.stat3": "FIBARO to Vietnam",
+      "hero.scroll": "Scroll to explore",
+      "photo.label": "Speaker · SmartHome Events",
+      "about.tag": "About Me", "about.title": "Building Smart Homes from Vision to Reality",
+      "about.p1": "I am <strong>Luca Vu Xuan Tuat</strong> — CEO of <strong>KST Smart Living</strong>, who has spent over <strong>15 years</strong> building and developing the smart home market in Vietnam.",
+      "about.p2": "My journey began with <strong>7 years of operations at Samsung Vietnam factories</strong> — where I built a solid technical foundation and systems thinking. This was followed by <strong>3 years consulting on IoT for industrial manufacturing</strong> and <strong>2 years specializing in the KNX standard</strong> for high-end buildings.",
+      "about.p3": "In <strong>2011</strong>, I was the first person to bring <strong>FIBARO</strong> from Europe to Vietnam, then continued pioneering the introduction of <strong>Edplit</strong> — a next-generation in-wall control system — to the domestic market.",
+      "about.p4": "With over <strong>5,000 projects</strong> completed across villas, apartments, hotels, and commercial buildings, I don't just provide technical consulting — I define authentic living experiences for every space.",
+      "about.brands": "European Brand Partners",
+      "exp.tag": "Journey", "exp.title": "Experience & Milestones",
+      "exp.sub": "15+ years of expertise — from Samsung factory floors to pioneering Vietnam's SmartHome market.",
+      "tl1.year": "7 Years · Samsung Vietnam", "tl1.role": "Operations Engineer & Production Improvement",
+      "tl1.company": "Samsung Electronics Vietnam · Bac Ninh & Thai Nguyen Factories",
+      "tl1.desc": "Operated large-scale electronics production lines, directly participating in process improvement projects (Kaizen, Lean Manufacturing). Built a solid technical foundation in electronics, automation, and systems thinking — directly applied later to industrial IoT solution design.",
+      "tl2.year": "3 Years · Industrial IoT", "tl2.role": "IoT Solutions Consultant for Manufacturing",
+      "tl2.company": "Independent Consultant · Industrial Zones, North & South Vietnam",
+      "tl2.desc": "Consulted and deployed IoT projects for manufacturing environments: real-time machine monitoring, factory energy optimization, automated fault alerts, and connecting production line data to management systems. Bridging industrial automation technology with the practical needs of Vietnamese enterprises.",
+      "tl3.year": "2 Years · KNX Smart Building", "tl3.role": "KNX Systems Specialist",
+      "tl3.company": "International Standard EN 50090 · ISO/IEC 14543 Integration",
+      "tl3.desc": "In-depth research and deployment of KNX — the global open standard for building automation. Designed multi-brand integrated solutions for lighting, blinds, HVAC, and security (ABB, Siemens, Gira, Schneider Electric) for high-end projects requiring high stability and scalability.",
+      "tl4.year": "2011 · Pioneer", "tl4.role": "Brought FIBARO to Vietnam",
+      "tl4.company": "First Exclusive Distributor · European SmartHome",
+      "tl4.desc": "The first person to import and distribute FIBARO — Europe's leading SmartHome brand — into the Vietnamese market. Opened the premium smart home segment to international standards, laying the foundation for a professional SmartHome ecosystem in Vietnam.",
+      "tl5.year": "Pioneer · Edplit", "tl5.role": "Brought Edplit to Vietnam",
+      "tl5.company": "Next-generation In-wall Control System",
+      "tl5.desc": "Pioneered the introduction of Edplit — a premium European in-wall touch control solution — to Vietnam. Edplit stands out for its minimalist design and seamless integration with FIBARO and Z-Wave systems, bringing an elegant control interface to luxury villas and high-end apartments.",
+      "tl6.year": "2011 — Present", "tl6.role": "CEO & Founder",
+      "tl6.company": "KST Smart Living · Ho Chi Minh City, Vietnam",
+      "tl6.desc": "Founded and operating KST Smart Living — Vietnam's leading unit in SmartHome consulting, design, and deployment. 5,000+ completed projects: 3,500+ villas, 1,000+ premium apartments, 300+ townhouses, 100+ hotels & resorts, 80+ commercial offices.",
+      "tl7.year": "Vision 2030", "tl7.role": "Building Vietnam's IoT Integration Hub",
+      "tl7.company": "Taking Vietnamese Engineers to the International Market",
+      "tl7.desc": "Aiming to make Vietnam a legitimate IoT integration hub, where Vietnamese engineers and architects develop solutions capable of competing in the US and European markets.",
+      "proj.tag": "Portfolio", "proj.title": "Featured Projects",
+      "proj.sub": "Real-world projects — from villas to resorts, from offices to urban developments — consulted and deployed by KST Smart Living.",
+      "p1.title": "Mr. Hong's Villa — Thu Duc", "p1.desc": "Comprehensive SmartHome system to European standards: emotional lighting control, smart blinds, multi-layer security, audio zoning, and energy management.",
+      "p2.title": "Mr. Hung's Villa — Thu Duc", "p2.desc": "Full living space automation: time-based lighting scenarios, smart access control, AI cameras, and automatic air conditioning based on temperature and occupancy.",
+      "p3.title": "Mr. Tuan's Villa — Vung Tau", "p3.desc": "Energy optimization showcase: solar integration, storage system, and real-time consumption monitoring — reducing operating costs by 40%.",
+      "p4.title": "Mr. Thanh's Villa — Bao Loc", "p4.desc": "Premium SmartHome in Bao Loc integrating lighting control, automated gates, surveillance cameras, and multi-zone audio system — full smartphone control.",
+      "p5.title": "Chi Hoi Villa — Binh Tan", "p5.desc": "Luxury villa combining sophisticated design and meticulous engineering: lighting control, automated access management, multi-zone audio, and integrated security.",
+      "p6.title": "Mr. Xung's Villa — Soc Trang", "p6.desc": "Full SmartHome deployment in a provincial setting: proving capability beyond major cities, bringing European living experiences to every region of Vietnam.",
+      "p7.title": "Ms. Huyen's Apartment — District 7", "p7.desc": "Premium apartment space optimization: daily routine automation, smart energy saving, remote control, and Apple HomeKit integration with Siri.",
+      "p8.title": "Mr. Hieu's Villa — Cityland", "p8.desc": "Premium KNX system with multi-brand integration: unified control of lighting, blinds, HVAC, and security on a single platform to international standard EN 50090.",
+      "p9.title": "Bach Dang Complex — Da Nang", "p9.desc": "Da Nang hotel complex: smart LED lighting auto-adjusting by time, multi-zone audio from corridors to pool, building-wide energy management.",
+      "stat.villas": "Villas", "stat.apts": "Premium Apartments", "stat.town": "Townhouses",
+      "stat.hotels": "Hotels & Resorts", "stat.offices": "Commercial Offices", "stat.retail": "Retail Chains",
+      "vision.tag": "Vision", "vision.title": "Vietnam — IoT Hub of Southeast Asia",
+      "vision.quote": "Vietnamese engineers are fully capable of creating solutions competitive in the US and European markets",
+      "vision.text": "I believe Vietnam should not remain a mere import and distribution market. With talented engineers and competitive development costs, we can build IoT solutions \"made in Vietnam\" — serving not just domestic needs but also exporting to the world.",
+      "vision.m1": "Year SmartHome came to Vietnam", "vision.m2": "Projects Deployed", "vision.m3": "Goal: International IoT Hub",
+      "blog.tag": "Insights", "blog.title": "Sharing from the Field",
+      "blog.sub": "Real perspectives on SmartHome, IoT, and smart living technology trends.",
+      "blog1.cat": "SmartHome · Design", "blog1.title": "9 SmartHome Design Styles: Connections You May Not Know",
+      "blog1.excerpt": "The art of combining automation technology with each interior design style — from minimalist to classic, should technology blend in or stand out?",
+      "blog1.meta": "KST Smart Living · June 2025",
+      "blog2.cat": "Safety · Sensors", "blog2.title": "What Is a CO Sensor? Classification, Operating Principles & Structure",
+      "blog2.excerpt": "Complete guide to CO gas sensors in SmartHome: detecting dangerous concentrations and integrating smart alerts to protect your family 24/7.",
+      "blog2.meta": "KST Smart Living · May 2025",
+      "blog3.cat": "IoT · Audio", "blog3.title": "What Can a Smart Speaker Do? Applications in the SmartHome Ecosystem",
+      "blog3.excerpt": "From voice control to multi-zone audio connectivity — smart speakers aren't just for music; they're the coordination hub for the entire home.",
+      "blog3.meta": "KST Smart Living · March 2025",
+      "blog.more": "Read more on kstgroup.vn →",
+      "contact.tag": "Contact", "contact.title": "Start Your Project",
+      "contact.sub": "Whether it's a villa, apartment, or commercial building — let us consult the best solution for your space.",
+      "contact.email.label": "Email", "contact.linkedin.label": "LinkedIn",
+      "contact.phone.label": "Phone", "contact.web.label": "Company Website",
+      "footer.copy": "© 2025 <a href=\"#\">Luca Vu Xuan Tuat</a> · CEO KST Smart Living",
+      "footer.about": "About", "footer.projects": "Projects", "footer.blog": "Blog", "footer.contact": "Contact"
+    }
+  };
+
+  function applyLang(lang) {
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang);
+    const tr = t[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (tr[key] !== undefined) el.textContent = tr[key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.getAttribute('data-i18n-html');
+      if (tr[key] !== undefined) el.innerHTML = tr[key];
+    });
+    const toggle = document.getElementById('langToggle');
+    if (toggle) toggle.textContent = lang === 'vi' ? 'EN' : 'VI';
+    const mVI = document.getElementById('mobileLangVI');
+    const mEN = document.getElementById('mobileLangEN');
+    if (mVI && mEN) {
+      mVI.classList.toggle('active', lang === 'vi');
+      mEN.classList.toggle('active', lang === 'en');
+    }
+  }
+
+  function setLang(lang) {
+    localStorage.setItem('lang', lang);
+    applyLang(lang);
+  }
+
+  function toggleLang() {
+    const cur = document.documentElement.getAttribute('data-lang') || 'vi';
+    setLang(cur === 'vi' ? 'en' : 'vi');
+  }
+
+  // Apply saved or default language on load
+  applyLang(localStorage.getItem('lang') || 'vi');
+
+  // ───── NAV SCROLL ─────
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 50);
   });
 
-  // Mobile menu
+  // ───── MOBILE MENU ─────
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
-  const menuClose = document.getElementById('menuClose');
-
-  hamburger.addEventListener('click', () => { mobileMenu.classList.add('open'); });
-  menuClose.addEventListener('click', closeMobileMenu);
+  hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
+  document.getElementById('menuClose').addEventListener('click', closeMobileMenu);
   function closeMobileMenu() { mobileMenu.classList.remove('open'); }
 
-  // Fade-up on scroll
-  const fadeEls = document.querySelectorAll('.fade-up');
+  // ───── FADE UP ─────
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
@@ -1169,16 +1504,13 @@
       }
     });
   }, { threshold: 0.1 });
-  fadeEls.forEach(el => observer.observe(el));
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-  // Smooth scroll for all anchor links
+  // ───── SMOOTH SCROLL ─────
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const target = document.querySelector(a.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth' });
-      }
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
     });
   });
 </script>
