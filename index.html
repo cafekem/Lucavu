@@ -289,50 +289,64 @@
 
     .about-avatar-wrap {
       position: relative;
+      min-height: 520px;
     }
-    .about-avatar {
-      width: 100%;
-      aspect-ratio: 3/4;
+    .photo-main {
+      position: absolute;
+      top: 0; left: 0;
+      width: 70%;
+      height: 86%;
       border-radius: 20px;
-      background: var(--bg3);
       border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
       overflow: hidden;
-      position: relative;
+      z-index: 2;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 40px rgba(0,212,255,0.07);
     }
-    .avatar-placeholder {
-      font-family: var(--font-heading);
-      font-size: 6rem;
-      font-weight: 800;
-      color: var(--cyan-dim);
-      user-select: none;
+    .photo-main img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 18%;
+      display: block;
+      transition: transform 0.6s ease;
     }
-    .avatar-note {
-      position: absolute; bottom: 1rem; left: 1rem; right: 1rem;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.6rem 0.9rem;
-      font-size: 0.78rem;
+    .photo-main:hover img { transform: scale(1.04); }
+    .photo-secondary {
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 58%;
+      height: 68%;
+      border-radius: 16px;
+      border: 3px solid var(--bg2);
+      overflow: hidden;
+      z-index: 3;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+    }
+    .photo-secondary img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 12%;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .photo-secondary:hover img { transform: scale(1.04); }
+    .photo-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(8,12,16,0.92) 0%, transparent 100%);
+      padding: 2rem 0.9rem 0.7rem;
+      font-size: 0.72rem;
       color: var(--gray);
       text-align: center;
+      pointer-events: none;
     }
-    .about-corner {
+    .photo-accent-dot {
       position: absolute;
-      top: -1rem; right: -1rem;
-      width: 80px; height: 80px;
-      border-top: 2px solid var(--cyan);
-      border-right: 2px solid var(--cyan);
-      border-radius: 0 12px 0 0;
-    }
-    .about-corner-bl {
-      position: absolute;
-      bottom: -1rem; left: -1rem;
-      width: 80px; height: 80px;
-      border-bottom: 2px solid var(--cyan);
-      border-left: 2px solid var(--cyan);
-      border-radius: 0 0 0 12px;
+      top: -0.5rem; right: calc(30% - 0.5rem);
+      width: 12px; height: 12px;
+      background: var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 16px var(--cyan);
+      z-index: 4;
     }
 
     .about-chips {
@@ -818,11 +832,13 @@
     <div class="about-grid">
 
       <div class="about-avatar-wrap fade-up">
-        <div class="about-corner"></div>
-        <div class="about-corner-bl"></div>
-        <div class="about-avatar">
-          <span class="avatar-placeholder">LT</span>
-          <div class="avatar-note">Ảnh chân dung · Thay thế bằng ảnh thực của anh</div>
+        <div class="photo-main">
+          <img src="z7935855326372_6856a941be0e0dfa30f99944b6660432.jpg" alt="Luca Vũ Xuân Tuất" />
+        </div>
+        <div class="photo-accent-dot"></div>
+        <div class="photo-secondary">
+          <img src="z7935854504974_e6ed49589a97d10cfc4a64fe2195f65b.jpg" alt="Luca Vũ Xuân Tuất phát biểu tại sự kiện" />
+          <span class="photo-label">Diễn giả · Sự kiện SmartHome</span>
         </div>
       </div>
 
